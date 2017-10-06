@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CleanProject</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_server">Problem connecting with the server</string>
+    <string name="try_again">Try again</string>
+    <string name="error_volume">Please check your volume</string>
+    <string name="main_fragment_titñe">Weather Forecast Bot</string>
+</resources>
