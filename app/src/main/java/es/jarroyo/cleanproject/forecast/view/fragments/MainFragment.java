@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -296,22 +295,31 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @OnClick(R.id.main_content_fab_button)
     public void onClickProccessRequestWit() {
+        clickRecord();
+    }
+
+    private void clickRecord() {
         mLayoutInfo.setVisibility(View.GONE);
 
         if (isRecording) {
+            proccessWitResponse();
             loadForecastData();
         } else {
             initRecording();
         }
 
-
-        Toast.makeText(getContext(), "Problema con Wit.ai", Toast.LENGTH_SHORT).show();
         // Debido a un problema con Wit en Android 6.0 simulamos las peticiones
+        // Habría que hacer la llamada a los servicios de WIT
         /*try {
             _wit.toggleListening();
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+    }
+
+    // Método en el que habría que tratar el resultado de WIT
+    private void proccessWitResponse() {
+
     }
 
     private void loadForecastData() {

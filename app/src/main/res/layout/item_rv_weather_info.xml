@@ -72,10 +72,30 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/item_rv_weather_info_tv_precipitation"
+        android:id="@+id/item_rv_weather_info_tv_sky"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_rv_weather_info_layout_wind"/>
+
+    <RelativeLayout
+        android:id="@+id/item_rv_weather_info_layout_precipitation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_rv_weather_info_tv_sky">
+
+        <TextView
+            android:id="@+id/item_rv_weather_info_layout_precipitation_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/precipitation" />
+
+        <TextView
+            android:id="@+id/item_rv_weather_info_tv_precipitation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/item_rv_weather_info_layout_precipitation_tv_title" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/item_rv_weather_info_iv_selected"
