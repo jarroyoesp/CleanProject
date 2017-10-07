@@ -53,6 +53,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity implement
      * Events in NavigationView
      */
     protected void setupDrawerContent() {
+
+        mNavigationView.setCheckedItem(R.id.item_menu_basenavigation_section1);
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 
