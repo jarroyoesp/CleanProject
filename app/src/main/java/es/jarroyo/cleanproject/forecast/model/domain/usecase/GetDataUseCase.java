@@ -1,4 +1,4 @@
-package es.jarroyo.cleanproject.domain.usecase;
+package es.jarroyo.cleanproject.forecast.model.domain.usecase;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,9 +7,9 @@ import java.util.List;
 
 import es.jarroyo.cleanproject.base.RequestError;
 import es.jarroyo.cleanproject.base.UseCase;
-import es.jarroyo.cleanproject.data.source.DataRepository;
-import es.jarroyo.cleanproject.data.source.DataSourceInterface;
-import es.jarroyo.cleanproject.domain.model.Data;
+import es.jarroyo.cleanproject.forecast.source.DataRepository;
+import es.jarroyo.cleanproject.forecast.source.DataSourceInterface;
+import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

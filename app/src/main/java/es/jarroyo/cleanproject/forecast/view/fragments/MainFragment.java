@@ -1,4 +1,4 @@
-package es.jarroyo.cleanproject.fragments;
+package es.jarroyo.cleanproject.forecast.view.fragments;
 
 
 import android.location.Location;
@@ -41,8 +41,8 @@ import es.jarroyo.cleanproject.R;
 import es.jarroyo.cleanproject.base.ui.BaseFragment;
 import es.jarroyo.cleanproject.base.ui.BaseNavigationActivity;
 import es.jarroyo.cleanproject.contract.DataContract;
-import es.jarroyo.cleanproject.domain.model.Data;
-import es.jarroyo.cleanproject.ui.adapter.DataWeatherRvAdapter;
+import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
+import es.jarroyo.cleanproject.forecast.view.adapter.DataWeatherRvAdapter;
 import es.jarroyo.cleanproject.utils.DateUtils;
 import es.jarroyo.cleanproject.utils.SpeechUtils;
 

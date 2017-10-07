@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package es.jarroyo.cleanproject.data.source;
+package es.jarroyo.cleanproject.forecast.source;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import java.util.List;
 
 import es.jarroyo.cleanproject.base.RequestError;
-import es.jarroyo.cleanproject.domain.model.Data;
+import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 
 /**
  * Main entry point for accessing tasks data.

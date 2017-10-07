@@ -1,4 +1,4 @@
-package es.jarroyo.cleanproject.ui.adapter;
+package es.jarroyo.cleanproject.forecast.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.jarroyo.cleanproject.R;
-import es.jarroyo.cleanproject.domain.model.Data;
+import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 import es.jarroyo.cleanproject.utils.DateUtils;
 
 

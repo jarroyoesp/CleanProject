@@ -1,4 +1,4 @@
-package es.jarroyo.cleanproject.activities;
+package es.jarroyo.cleanproject.forecast.view.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -13,11 +13,11 @@ import es.jarroyo.cleanproject.R;
 import es.jarroyo.cleanproject.base.UseCaseHandler;
 import es.jarroyo.cleanproject.base.ui.BaseNavigationActivity;
 import es.jarroyo.cleanproject.contract.DataPresenter;
-import es.jarroyo.cleanproject.data.source.DataRepository;
-import es.jarroyo.cleanproject.data.source.remote.RemoteDataSource;
-import es.jarroyo.cleanproject.domain.usecase.GetDataUseCase;
-import es.jarroyo.cleanproject.fragments.MainFragment;
-import es.jarroyo.cleanproject.fragments.Section2Fragment;
+import es.jarroyo.cleanproject.forecast.source.DataRepository;
+import es.jarroyo.cleanproject.forecast.source.remote.RemoteDataSource;
+import es.jarroyo.cleanproject.forecast.model.domain.usecase.GetDataUseCase;
+import es.jarroyo.cleanproject.forecast.view.fragments.MainFragment;
+import es.jarroyo.cleanproject.forecast.view.fragments.Section2Fragment;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

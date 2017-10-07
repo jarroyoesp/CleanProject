@@ -1,5 +1,5 @@
 
-package es.jarroyo.cleanproject.domain.model;
+package es.jarroyo.cleanproject.forecast.model.domain.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

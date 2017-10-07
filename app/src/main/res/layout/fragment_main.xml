@@ -8,7 +8,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="es.jarroyo.cleanproject.fragments.MainFragment">
+        tools:context="es.jarroyo.cleanproject.forecast.view.fragments.MainFragment">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/fragment_main_swipe_refresh"

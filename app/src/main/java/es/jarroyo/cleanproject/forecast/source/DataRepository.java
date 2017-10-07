@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package es.jarroyo.cleanproject.data.source;
+package es.jarroyo.cleanproject.forecast.source;
 
 import android.support.annotation.NonNull;
 

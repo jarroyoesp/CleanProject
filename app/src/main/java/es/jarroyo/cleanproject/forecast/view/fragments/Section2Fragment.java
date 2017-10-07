@@ -1,4 +1,4 @@
-package es.jarroyo.cleanproject.fragments;
+package es.jarroyo.cleanproject.forecast.view.fragments;
 
 
 import android.os.Bundle;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import es.jarroyo.cleanproject.base.BasePresenter;
 import es.jarroyo.cleanproject.base.BaseView;
-import es.jarroyo.cleanproject.domain.model.Data;
+import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 
 public interface DataContract {
 

@@ -2,7 +2,7 @@ package es.jarroyo.cleanproject.utils;
 
 import java.util.List;
 
-import es.jarroyo.cleanproject.domain.model.Data;
+import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 
 /**
  * Created by javierarroyo on 6/10/17.
