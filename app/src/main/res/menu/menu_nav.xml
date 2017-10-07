@@ -18,13 +18,13 @@
         android:orderInCategory="100"
         android:checkable="true"
         android:icon="@drawable/ic_android_black_24dp"
-        android:title="Section 1" />
+        android:title="@string/forecast" />
 
 
-    <item
+    <!--<item
         android:id="@+id/item_menu_basenavigation_section2"
         android:orderInCategory="100"
         android:checkable="true"
         android:icon="@drawable/ic_directions_car_black_24dp"
-        android:title="Section 1" />
+        android:title="Section 1" />-->
 </menu>

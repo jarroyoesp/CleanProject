@@ -1,6 +1,7 @@
 package es.jarroyo.cleanproject.fragments;
 
 
+import android.location.Location;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -21,6 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -84,6 +88,7 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     // 41.647078, -0.885536
     private Double mLatitude = 41.647078;
     private Double mLongitud = -0.885536;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     // Speech
     TextToSpeech mTextToSpeech;
@@ -109,6 +114,21 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         checkVolumeLevel();
+        getLastKnowPosition();
+    }
+
+    private void getLastKnowPosition() {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            mLatitude = location.getLatitude();
+                            mLongitud = location.getAltitude();
+                        }
+                    }
+                });
     }
 
     @Override

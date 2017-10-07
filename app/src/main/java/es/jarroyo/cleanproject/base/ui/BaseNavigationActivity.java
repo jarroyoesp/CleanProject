@@ -146,9 +146,9 @@ public abstract class BaseNavigationActivity extends AppCompatActivity implement
                 onClickNavigationMenuItem(0);
                 break;
 
-            case R.id.item_menu_basenavigation_section2:
+            /*case R.id.item_menu_basenavigation_section2:
                 onClickNavigationMenuItem(1);
-                break;
+                break;*/
         }
         return true;
     }

@@ -19,10 +19,11 @@ import java.util.concurrent.TimeUnit;
 public class DateUtils {
     /**
      * A partir del timestamp en millisegundos obtiene la fecha en formato May 5, 2017 con hora dependiendo del locale
+     *
      * @param time
      * @return
      */
-    public static String getDateWithMonthString(long time){
+    public static String getDateWithMonthString(long time) {
 
         try {
             Timestamp timeStamp = new Timestamp(time);
@@ -42,10 +43,11 @@ public class DateUtils {
 
     /**
      * A partir del timestamp en millisegundos obtiene la fecha en formato May 5, 2017 dependiendo del locale
+     *
      * @param time
      * @return
      */
-    public static String getDateOnlyMonthString(long time){
+    public static String getDateOnlyMonthString(long time) {
 
         try {
             Timestamp timeStamp = new Timestamp(time);
@@ -79,7 +81,7 @@ public class DateUtils {
         }
     }
 
-    public static boolean isCurrentDateInOtherDayThanBefore(String strNextTimeStamp, String strCurrentTimestamp){
+    public static boolean isCurrentDateInOtherDayThanBefore(String strNextTimeStamp, String strCurrentTimestamp) {
         int frequency = 0;
         Calendar calCurrent = new GregorianCalendar();
         Calendar calPrevious = new GregorianCalendar();
@@ -98,18 +100,18 @@ public class DateUtils {
             calCurrent.setTime(nextDate);
             calPrevious.setTime(currentDate);
 
-            Date d1,d2;
-            d1=calCurrent.getTime();
-            d2=calPrevious.getTime();
-            frequency =(int)(TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS));
+            Date d1, d2;
+            d1 = calCurrent.getTime();
+            d2 = calPrevious.getTime();
+            frequency = (int) (TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS));
 
-            if(frequency == 0){
+            if (frequency == 0) {
                 return false;
             } else {
                 return true;
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
