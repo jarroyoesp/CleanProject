@@ -40,7 +40,7 @@ public class SpeechUtils {
     }
 
     private static String addWind(Data data) {
-        String temp = "The wind has a velocity of " +data.getWind().getSpeed()+" Km/Hour";
+        String temp = "The wind has a velocity of " +Math.round(data.getWind().getSpeed())+" meters per second. ";
         return temp;
     }
 

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +24,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +39,7 @@ import es.jarroyo.cleanproject.base.ui.BaseNavigationActivity;
 import es.jarroyo.cleanproject.contract.DataContract;
 import es.jarroyo.cleanproject.domain.model.Data;
 import es.jarroyo.cleanproject.ui.adapter.DataWeatherRvAdapter;
+import es.jarroyo.cleanproject.utils.DateUtils;
 import es.jarroyo.cleanproject.utils.SpeechUtils;
 
 import static android.content.Context.AUDIO_SERVICE;
@@ -53,6 +55,10 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @BindView(R.id.fragment_main_rv_data)
     RecyclerView mRecyclerViewData;
+    LinearLayoutManager linearLayoutManager;
+
+    @BindView(R.id.fragment_main_swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @BindView(R.id.fragment_main_progress_loading)
     ProgressBar mProgressLoading;
@@ -63,14 +69,21 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     @BindView(R.id.fragment_main_tv_info)
     TextView mTextViewInfo;
 
+    @BindView(R.id.fragment_list_feed_text_view_date)
+    TextView mTextViewDate;
+
+    @BindView(R.id.fragment_main_layout_info)
+    View mLayoutInfo;
+
     DataWeatherRvAdapter mDataWeatherRVAdapter;
 
     private DataContract.Presenter mPresenter;
 
     // DATA
     // Coordenadas Zaragoza 41.650606, -0.906176
-    private Double mLatitude = 41.650606;
-    private Double mLongitud = -0.906176;
+    // 41.647078, -0.885536
+    private Double mLatitude = 41.647078;
+    private Double mLongitud = -0.885536;
 
     // Speech
     TextToSpeech mTextToSpeech;
@@ -169,6 +182,7 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @Override
     public void hideLoading() {
+        mSwipeRefreshLayout.setRefreshing(false);
         if (mProgressLoading.isShown()) {
             mProgressLoading.setVisibility(View.GONE);
         }
@@ -186,8 +200,8 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     }
 
     private void prepareRecyclerView(List<Data> dataList) {
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerViewData.setVisibility(View.VISIBLE);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewData.setLayoutManager(linearLayoutManager);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerViewData.getContext(),
@@ -197,6 +211,43 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
         mDataWeatherRVAdapter = new DataWeatherRvAdapter(getContext(), dataList, this);
         mRecyclerViewData.setAdapter(mDataWeatherRVAdapter);
+
+        mRecyclerViewData.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int firstPosShowed = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                int lastPos = linearLayoutManager.getItemCount() - 1;
+                if (dy != 0) {
+                    showDateFirstVisibleItem(firstPosShowed);
+                }
+            }
+
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+
+                        // Cuando paramos de scrollear si se esta mostrando la fecha, la ocultamos
+                        if (mTextViewDate != null && mTextViewDate.getVisibility() == View.VISIBLE) {
+                            animateViewAppersFromUp(mTextViewDate, false, 1000);
+                            mTextViewDate.setVisibility(View.GONE);
+                        }
+                        break;
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                        break;
+                    case RecyclerView.SCROLL_STATE_SETTLING:
+                        break;
+                }
+
+            }
+        });
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (mPresenter != null) {
+                    mPresenter.loadData(mLatitude, mLongitud);
+                }
+            }
+        });
     }
 
     /**
@@ -217,11 +268,16 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @OnClick(R.id.main_content_fab_button)
     public void onClickProccessRequestWit() {
-        try {
+        mLayoutInfo.setVisibility(View.GONE);
+        if (mPresenter != null) {
+            mPresenter.loadData(mLatitude, mLongitud);
+        }
+        Toast.makeText(getContext(), "Problema con Wit.ai", Toast.LENGTH_SHORT).show();
+        /*try {
             _wit.toggleListening();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -248,7 +304,7 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
         if (error != null) {
             mTextViewInfo.setText(error.getLocalizedMessage());
-            return ;
+            return;
         }
         String jsonOutput = gson.toJson(witOutcomes);
         mTextViewInfo.setText(jsonOutput);
@@ -262,7 +318,8 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @Override
     public void witDidStopListening() {
-        mTextViewInfo.setText("Processing...");    }
+        mTextViewInfo.setText("Processing...");
+    }
 
     @Override
     public void witActivityDetectorStarted() {
@@ -273,4 +330,55 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     public String witGenerateMessageId() {
         return null;
     }
+
+    /**
+     * Anima la vista para mostrar si hay conexión a internet o no.
+     *
+     * @param show true indica que se va a mostrar el error
+     *             false para ocultar el error
+     */
+    private void animateViewAppersFromUp(View viewToAnimate, boolean show, int startMillDelay) {
+        TranslateAnimation anim;
+
+        if (show) {
+            anim = new TranslateAnimation(0, 0, -(viewToAnimate.getHeight() * 3), 0);
+        } else {
+            anim = new TranslateAnimation(0, 0, 0, -(viewToAnimate.getHeight() * 3));
+        }
+        anim.setDuration(300);
+        anim.setFillAfter(true);
+        anim.setStartOffset(startMillDelay);
+        viewToAnimate.startAnimation(anim);
+    }
+
+    /**
+     * Muestra la fecha del primer item mostrado en el rv.
+     *
+     * @param lastPosShowed
+     */
+    private void showDateFirstVisibleItem(int lastPosShowed) {
+        if (lastPosShowed >= 0) {
+            boolean hasToAnimate = false;
+            if (mTextViewDate.getVisibility() == View.GONE) {
+                mTextViewDate.setVisibility(View.VISIBLE);
+                hasToAnimate = true;
+            }
+            if (hasToAnimate) {
+                animateViewAppersFromUp(mTextViewDate, true, 0);
+            }
+            setDateFirstVisibleItem(mTextViewDate, mDataWeatherRVAdapter.getDataList().get(lastPosShowed));
+        }
+    }
+
+    /**
+     * Metodo que pone en el textview la fecha indicada
+     *
+     * @param textView
+     * @param data
+     */
+    private void setDateFirstVisibleItem(TextView textView, Data data) {
+        String str = DateUtils.getDateOnlyMonthString(Long.valueOf(data.getDt()) * 1000);
+        textView.setText(str);
+    }
+
 }

@@ -55,9 +55,17 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void configView(ViewHolder viewHolder, int position) {
-        viewHolder.textViewTitleDate.setText(DateUtils.getDateWithMonthString(mDataList.get(position).getDt()*1000));
-        viewHolder.textViewTitleTemperature.setText(mDataList.get(position).getMain().getTemp() + " grades");
-        viewHolder.textViewTitleWind.setText(mDataList.get(position).getWind().getSpeed() + " velocity");
+        //DATE SEPARATOR
+        if (showSeparator(position)) {
+            viewHolder.textViewTitleDate.setVisibility(View.VISIBLE);
+            viewHolder.textViewTitleDate.setText(DateUtils.getDateOnlyMonthString(mDataList.get(position).getDt()*1000));
+        } else {
+            viewHolder.textViewTitleDate.setVisibility(View.GONE);
+        }
+
+        viewHolder.textViewTitleHour.setText(DateUtils.getHoursAndMinutesFrom(mDataList.get(position).getDt()*1000)+"");
+        viewHolder.textViewTitleTemperature.setText(Math.round(mDataList.get(position).getMain().getTemp())+"");
+        viewHolder.textViewTitleWind.setText(mDataList.get(position).getWind().getSpeed() + " m/s");
 
         if (mDataList.get(position).getWeather() != null && mDataList.get(position).getWeather().get(0) != null) {
             viewHolder.textViewTitlePrecipitation.setText(mDataList.get(position).getWeather().get(0).getDescription());
@@ -89,6 +97,7 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected View mainLayout;
         protected TextView textViewTitleDate;
+        protected TextView textViewTitleHour;
         protected TextView textViewTitleTemperature;
         protected TextView textViewTitleWind;
         protected TextView textViewTitlePrecipitation;
@@ -98,6 +107,7 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(view);
             mainLayout = view.findViewById(R.id.item_rv_weather_info_layout_main);
             textViewTitleDate = (TextView) view.findViewById(R.id.item_rv_weather_info_tv_date);
+            textViewTitleHour = (TextView) view.findViewById(R.id.item_rv_weather_info_tv_hour);
             textViewTitleTemperature = (TextView) view.findViewById(R.id.item_rv_weather_info_tv_temperature);
             textViewTitleWind = (TextView) view.findViewById(R.id.item_rv_weather_info_tv_wind);
             textViewTitlePrecipitation = (TextView) view.findViewById(R.id.item_rv_weather_info_tv_precipitation);
@@ -107,7 +117,7 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         public void onClick(View v) {
-            if (getAdapterPosition() != -1 && getDevicesList() != null && getAdapterPosition() < getDevicesList().size()) {
+            if (getAdapterPosition() != -1 && getDataList() != null && getAdapterPosition() < getDataList().size()) {
                 mOnitemClickListener.onMedicationClick(mDataList.get(getAdapterPosition()).getMain().getGrndLevel().toString(), getAdapterPosition());
 
                 mPositionSelected = getAdapterPosition();
@@ -118,7 +128,7 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    public List<Data> getDevicesList() {
+    public List<Data> getDataList() {
         return mDataList;
     }
 
@@ -128,5 +138,23 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public int getPositionSelected() {
         return mPositionSelected;
+    }
+
+    public boolean showSeparator(int currentPosition){
+        int nextPosition = currentPosition + 1;
+
+        //Comparamos entre la fecha actual y la siguiente
+        if(currentPosition >= 1
+                && mDataList.size() > 0
+                && mDataList.size() > nextPosition
+                && mDataList.get(nextPosition) != null) {
+            return DateUtils.isCurrentDateInOtherDayThanBefore(mDataList.get(currentPosition).getDt().toString(), mDataList.get(currentPosition -1).getDt().toString());
+        }
+        // Si es la ultima posicion mostramos el separador tambien para ver la fecha
+        else if (currentPosition == 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -2,48 +2,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_rv_weather_info_layout_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/item_rv_weather_info_tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingTop="@dimen/padding_item_rv_weather"
-        android:paddingBottom="@dimen/padding_item_rv_weather"
-        android:paddingLeft="@dimen/padding_item_rv_weather"
-        android:paddingRight="@dimen/padding_item_rv_weather" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_alignParentTop="true" />
 
     <TextView
-        android:id="@+id/item_rv_weather_info_tv_temperature"
+        android:id="@+id/item_rv_weather_info_tv_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_below="@+id/item_rv_weather_info_tv_date"
-        android:paddingTop="@dimen/padding_item_rv_weather"
-        android:paddingBottom="@dimen/padding_item_rv_weather"
-        android:paddingLeft="@dimen/padding_item_rv_weather"
-        android:paddingRight="@dimen/padding_item_rv_weather" />
+        android:textColor="@color/colorPrimary"/>
 
-    <TextView
-        android:id="@+id/item_rv_weather_info_tv_wind"
+    <RelativeLayout
+        android:id="@+id/item_rv_weather_info_layout_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/item_rv_weather_info_tv_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="13"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/item_rv_weather_info_tv_temperature"
+            android:text=" ºC"
+            android:textSize="26sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/item_rv_weather_info_layout_wind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_rv_weather_info_tv_temperature"
-        android:paddingTop="@dimen/padding_item_rv_weather"
-        android:paddingBottom="@dimen/padding_item_rv_weather"
-        android:paddingLeft="@dimen/padding_item_rv_weather"
-        android:paddingRight="@dimen/padding_item_rv_weather" />
+        android:layout_below="@+id/item_rv_weather_info_tv_hour">
+
+        <TextView
+            android:id="@+id/item_rv_weather_info_layout_wind_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/wind" />
+
+        <TextView
+            android:id="@+id/item_rv_weather_info_tv_wind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/item_rv_weather_info_layout_wind_tv_title" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/item_rv_weather_info_tv_precipitation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_rv_weather_info_tv_wind"
-        android:paddingTop="@dimen/padding_item_rv_weather"
-        android:paddingBottom="@dimen/padding_item_rv_weather"
-        android:paddingLeft="@dimen/padding_item_rv_weather"
-        android:paddingRight="@dimen/padding_item_rv_weather"/>
+        android:layout_below="@+id/item_rv_weather_info_layout_wind"/>
 
     <ImageView
         android:id="@+id/item_rv_weather_info_iv_selected"
