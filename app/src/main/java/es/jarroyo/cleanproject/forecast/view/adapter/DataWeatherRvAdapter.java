@@ -28,7 +28,7 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
      * Clickinterface on items
      */
     public interface OnItemClickListener {
-        void onMedicationClick(String medication, int position);
+        void onDataClick(String data, int position);
     }
 
 
@@ -118,7 +118,7 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
         @Override
         public void onClick(View v) {
             if (getAdapterPosition() != -1 && getDataList() != null && getAdapterPosition() < getDataList().size()) {
-                mOnitemClickListener.onMedicationClick(mDataList.get(getAdapterPosition()).getMain().getGrndLevel().toString(), getAdapterPosition());
+                mOnitemClickListener.onDataClick(mDataList.get(getAdapterPosition()).getMain().getGrndLevel().toString(), getAdapterPosition());
 
                 mPositionSelected = getAdapterPosition();
                 v.setSelected(true);
@@ -132,8 +132,8 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
         return mDataList;
     }
 
-    public void setList(List<Data> medicationList) {
-        this.mDataList = medicationList;
+    public void setList(List<Data> dataList) {
+        this.mDataList = dataList;
     }
 
     public int getPositionSelected() {

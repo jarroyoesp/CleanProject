@@ -126,20 +126,6 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         getLastKnowPosition();
     }
 
-    private void getLastKnowPosition() {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            mLatitude = location.getLatitude();
-                            mLongitud = location.getAltitude();
-                        }
-                    }
-                });
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -161,6 +147,20 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
             mTextToSpeech.shutdown();
         }
         super.onPause();
+    }
+
+    private void getLastKnowPosition() {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    mLatitude = location.getLatitude();
+                    mLongitud = location.getAltitude();
+                }
+            }
+        });
     }
 
     private void initTextToSpeech() {
@@ -281,11 +281,11 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     /**
      * ON CLICKS
      *
-     * @param medication
+     * @param data
      * @param position
      */
     @Override
-    public void onMedicationClick(String medication, int position) {
+    public void onDataClick(String data, int position) {
 
     }
 
