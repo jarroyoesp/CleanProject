@@ -187,7 +187,6 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @Override
     public void showData(List<Data> dataList) {
-        Toast.makeText(getContext(), "SHOW DATA", Toast.LENGTH_SHORT).show();
         prepareRecyclerView(dataList);
         readInfoToUser(dataList);
     }
@@ -198,6 +197,7 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
             mProgressLoading.setVisibility(View.VISIBLE);
         }
         mLayoutError.setVisibility(View.GONE);
+        mLayoutInfo.setVisibility(View.GONE);
     }
 
     @Override
@@ -210,7 +210,8 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @Override
     public void onErrorGetData() {
-        Toast.makeText(getContext(), "ON ERROR", Toast.LENGTH_SHORT).show();
+        mRecyclerViewData.setVisibility(View.GONE);
+        mLayoutInfo.setVisibility(View.GONE);
         mLayoutError.setVisibility(View.VISIBLE);
     }
 

@@ -31,7 +31,7 @@ public class MainActivity extends BaseNavigationActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitleToolbar(getString(R.string.main_fragment_titñe));
+        setTitleToolbar(getString(R.string.main_fragment_title));
 
         checkLocationPermissions();
         addFirstFragment();

@@ -13,7 +13,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="gone"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         android:layout_alignParentTop="true" />
 
     <TextView

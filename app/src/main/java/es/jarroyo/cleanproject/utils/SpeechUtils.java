@@ -11,21 +11,21 @@ import es.jarroyo.cleanproject.domain.model.Data;
 public class SpeechUtils {
 
     public static String getTextToSpeech(List<Data> dataList, int nextHours){
-        String textToSpeech = "";
+        StringBuffer textToSpeech= new StringBuffer();
 
         if (dataList != null && dataList.size() > 0) {
-            textToSpeech = "The weather today ";
+            textToSpeech.append("The weather today ");
 
             for (int posNextInfo = 0; posNextInfo < nextHours; posNextInfo++) {
-                textToSpeech = textToSpeech +" at " + addHours(dataList.get(posNextInfo)) +" is. ";
-                textToSpeech = textToSpeech + addTemperature(dataList.get(posNextInfo));
-                textToSpeech = textToSpeech + addWind(dataList.get(posNextInfo));
-                textToSpeech = textToSpeech + addClouds(dataList.get(posNextInfo));
+                textToSpeech.append(" at " + addHours(dataList.get(posNextInfo)) +" is. ");
+                textToSpeech.append(addTemperature(dataList.get(posNextInfo)));
+                textToSpeech.append(addWind(dataList.get(posNextInfo)));
+                textToSpeech.append(addClouds(dataList.get(posNextInfo)));
             }
         } else {
-            textToSpeech = "Something was wrong.Please try again";
+            textToSpeech.append("Something was wrong.Please try again");
         }
-        return textToSpeech;
+        return textToSpeech.toString();
     }
 
     private static String addHours(Data data) {
@@ -47,7 +47,7 @@ public class SpeechUtils {
     private static String addClouds(Data data) {
         String temp = "";
         if (data.getWeather() != null && data.getWeather().get(0) != null) {
-            temp = "and is " + data.getWeather().get(0).getDescription();
+            temp = " and is " + data.getWeather().get(0).getDescription();
         }
         return temp;
     }

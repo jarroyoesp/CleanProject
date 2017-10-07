@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">CleanProject</string>
+    <string name="app_name">Weather Bot</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_server">Problem connecting with the server</string>
     <string name="try_again">Try again</string>
     <string name="error_volume">Please check your volume</string>
-    <string name="main_fragment_titñe">Weather Forecast Bot</string>
+    <string name="main_fragment_title">Weather Forecast Bot</string>
     <string name="wind">Wind:\u0020</string>
     <string name="welcome_title">Pulsa el icono para iniciar grabación indicándonos que necesitas.\n\nPor ejemplo: Can you give me temperature, wind and precipitation for next 3 hours?</string>
     <string name="title_start">¿En qúe puedo ayudarte?</string>
