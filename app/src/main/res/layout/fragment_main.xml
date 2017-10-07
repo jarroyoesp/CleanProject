@@ -21,46 +21,64 @@
                 android:id="@+id/fragment_main_rv_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"></android.support.v7.widget.RecyclerView>
+                android:layout_marginRight="12dp"
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <ProgressBar
+        <RelativeLayout
             android:id="@+id/fragment_main_progress_loading"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="-100dp"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimary"
-            android:indeterminateTintMode="src_in"
-            android:visibility="gone"></ProgressBar>
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/fragment_main_loading_progressbar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_centerHorizontal="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:indeterminateTintMode="src_in"
+                ></ProgressBar>
+
+            <TextView
+                android:id="@+id/fragment_main_progress_tv_loading"
+                android:layout_below="@+id/fragment_main_loading_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/fragment_main_layout_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:padding="@dimen/activity_horizontal_margin">
 
             <TextView
                 android:id="@+id/fragment_main_tv_title"
                 android:layout_width="wrap_content"
-                android:textSize="26sp"
-                android:textColor="@color/colorPrimary"
-                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:text="@string/title_start"/>
+                android:layout_centerHorizontal="true"
+                android:text="@string/title_start"
+                android:textColor="@color/colorPrimary"
+                android:textSize="26sp" />
 
             <TextView
                 android:id="@+id/fragment_main_tv_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_below="@+id/fragment_main_tv_title"
+                android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:text="@string/welcome_title" />

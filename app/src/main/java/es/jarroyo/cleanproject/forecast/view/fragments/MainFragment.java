@@ -65,7 +65,13 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     @BindView(R.id.fragment_main_progress_loading)
-    ProgressBar mProgressLoading;
+    View mProgressLayout;
+
+    @BindView(R.id.fragment_main_loading_progressbar)
+    ProgressBar mProgressBarLoading;
+
+    @BindView(R.id.fragment_main_progress_tv_loading)
+    TextView mTextViewLoading;
 
     @BindView(R.id.fragment_main_layout_error)
     View mLayoutError;
@@ -89,6 +95,9 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     private Double mLatitude = 41.647078;
     private Double mLongitud = -0.885536;
     private FusedLocationProviderClient mFusedLocationClient;
+
+    // Record
+    private boolean isRecording = false;
 
     // Speech
     TextToSpeech mTextToSpeech;
@@ -193,8 +202,8 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
 
     @Override
     public void showLoading() {
-        if (!mProgressLoading.isShown()) {
-            mProgressLoading.setVisibility(View.VISIBLE);
+        if (mProgressLayout.getVisibility() == View.GONE) {
+            mProgressLayout.setVisibility(View.VISIBLE);
         }
         mLayoutError.setVisibility(View.GONE);
         mLayoutInfo.setVisibility(View.GONE);
@@ -203,8 +212,8 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     @Override
     public void hideLoading() {
         mSwipeRefreshLayout.setRefreshing(false);
-        if (mProgressLoading.isShown()) {
-            mProgressLoading.setVisibility(View.GONE);
+        if (mProgressLayout.getVisibility() == View.VISIBLE) {
+            mProgressLayout.setVisibility(View.GONE);
         }
     }
 
@@ -264,9 +273,7 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (mPresenter != null) {
-                    mPresenter.loadData(mLatitude, mLongitud);
-                }
+                loadForecastData();
             }
         });
     }
@@ -290,15 +297,36 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     @OnClick(R.id.main_content_fab_button)
     public void onClickProccessRequestWit() {
         mLayoutInfo.setVisibility(View.GONE);
-        if (mPresenter != null) {
-            mPresenter.loadData(mLatitude, mLongitud);
+
+        if (isRecording) {
+            loadForecastData();
+        } else {
+            initRecording();
         }
+
+
         Toast.makeText(getContext(), "Problema con Wit.ai", Toast.LENGTH_SHORT).show();
+        // Debido a un problema con Wit en Android 6.0 simulamos las peticiones
         /*try {
             _wit.toggleListening();
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+    }
+
+    private void loadForecastData() {
+        isRecording = false;
+        mTextViewLoading.setText("Getting info about forecast...");
+        if (mPresenter != null) {
+            mPresenter.loadData(mLatitude, mLongitud);
+        }
+    }
+
+    private void initRecording() {
+        isRecording = true;
+        showLoading();
+        mRecyclerViewData.setVisibility(View.GONE);
+        mTextViewLoading.setText("Listening...\nClick sound button to stop recording");
     }
 
 
