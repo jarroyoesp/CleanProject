@@ -70,16 +70,6 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (mDataList.get(position).getWeather() != null && mDataList.get(position).getWeather().get(0) != null) {
             viewHolder.textViewTitlePrecipitation.setText(mDataList.get(position).getWeather().get(0).getDescription());
         }
-
-        if (mPositionSelected == position) {
-            viewHolder.mainLayout.setSelected(true);
-            viewHolder.ivItemSelected.setVisibility(View.VISIBLE);
-            //viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.light_gray));
-        } else {
-            viewHolder.mainLayout.setSelected(false);
-            viewHolder.ivItemSelected.setVisibility(View.GONE);
-            //viewHolder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-        }
     }
 
     @Override
@@ -119,10 +109,7 @@ public class DataWeatherRvAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void onClick(View v) {
             if (getAdapterPosition() != -1 && getDataList() != null && getAdapterPosition() < getDataList().size()) {
                 mOnitemClickListener.onDataClick(mDataList.get(getAdapterPosition()).getMain().getGrndLevel().toString(), getAdapterPosition());
-
                 mPositionSelected = getAdapterPosition();
-                v.setSelected(true);
-                DataWeatherRvAdapter.this.notifyDataSetChanged();
             }
         }
 
