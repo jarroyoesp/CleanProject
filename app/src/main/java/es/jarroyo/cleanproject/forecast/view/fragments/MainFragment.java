@@ -120,24 +120,6 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         setClikListenerFabButton();
     }
 
-    private void setClikListenerFabButton() {
-        mFabButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getActionMasked()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mPresenter.startRequestVoiceAction();
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        mPresenter.stopRequestVoiceAction();
-                        break;
-                }
-                return true;
-            }
-        });
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -197,7 +179,6 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         }
     }
 
-
     /***********************************************************************************************
      /* PRESENTER METHODS
      /*********************************************************************************************/
@@ -205,6 +186,7 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     public boolean isActive() {
         return isAdded();
     }
+
 
     @Override
     public void showData(List<Data> dataList) {
@@ -311,12 +293,9 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         });
     }
 
-    /**
+    /***********************************************************************************************
      * ON CLICKS
-     *
-     * @param data
-     * @param position
-     */
+     **********************************************************************************************/
     @Override
     public void onDataClick(String data, int position) {
 
@@ -335,6 +314,24 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         } else {
             mPresenter.startRequestVoiceAction();
         }
+    }
+
+    private void setClikListenerFabButton() {
+        mFabButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mPresenter.startRequestVoiceAction();
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        mPresenter.stopRequestVoiceAction();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     private void loadForecastData() {
