@@ -14,9 +14,15 @@ public interface DataContract {
         void showLoading();
         void hideLoading();
         void onErrorGetData();
+
+        void requestingVoiceAction();
+        void onSuccessRequestVoiceAction();
+        void onErrorRequestVoiceAction();
     }
 
     interface Presenter extends BasePresenter {
+        void startRequestVoiceAction();
+        void stopRequestVoiceAction();
         void loadData(Double latitude, Double longitud);
     }
 

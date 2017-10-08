@@ -7,8 +7,8 @@ import java.util.List;
 
 import es.jarroyo.cleanproject.base.RequestError;
 import es.jarroyo.cleanproject.base.UseCase;
-import es.jarroyo.cleanproject.forecast.source.DataRepository;
-import es.jarroyo.cleanproject.forecast.source.DataSourceInterface;
+import es.jarroyo.cleanproject.forecast.source.weather.DataRepository;
+import es.jarroyo.cleanproject.forecast.source.weather.DataSourceInterface;
 import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 
 import static com.google.common.base.Preconditions.checkNotNull;

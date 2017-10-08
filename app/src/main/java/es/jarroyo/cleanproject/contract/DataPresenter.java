@@ -6,6 +6,7 @@ import java.util.List;
 
 import es.jarroyo.cleanproject.base.UseCase;
 import es.jarroyo.cleanproject.base.UseCaseHandler;
+import es.jarroyo.cleanproject.forecast.model.domain.RequestVoiceActionUseCase;
 import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 import es.jarroyo.cleanproject.forecast.model.domain.usecase.GetDataUseCase;
 
@@ -16,12 +17,15 @@ public class DataPresenter implements DataContract.Presenter {
     private final DataContract.View mDataContractView;
     private final UseCaseHandler mUseCaseHandler;
     private final GetDataUseCase mGetDataUseCase;
+    private final RequestVoiceActionUseCase mRequestVoiceActionUseCase;
 
     public DataPresenter(@NonNull UseCaseHandler useCaseHandler,
                          @NonNull DataContract.View dataContractView,
-                         @NonNull GetDataUseCase getDataUseCase) {
+                         @NonNull GetDataUseCase getDataUseCase,
+                         @NonNull RequestVoiceActionUseCase requestVoiceActionUseCase) {
         mUseCaseHandler = checkNotNull(useCaseHandler, "usecaseHandler cannot be null");
         mGetDataUseCase = checkNotNull(getDataUseCase, "getDataUseCase cannot be null!");
+        mRequestVoiceActionUseCase = checkNotNull(requestVoiceActionUseCase, "getDataUseCase cannot be null!");
         mDataContractView = checkNotNull(dataContractView, "requestDynamicAction cannot be null!");
 
         mDataContractView.setPresenter(this);
@@ -33,6 +37,38 @@ public class DataPresenter implements DataContract.Presenter {
     @Override
     public void start() {
 
+    }
+
+
+    @Override
+    public void startRequestVoiceAction() {
+        mDataContractView.requestingVoiceAction();
+
+        mUseCaseHandler.execute(mRequestVoiceActionUseCase, new RequestVoiceActionUseCase.RequestValues(), new UseCase.UseCaseCallback<RequestVoiceActionUseCase.ResponseValue>(){
+
+            @Override
+            public void onSuccess(RequestVoiceActionUseCase.ResponseValue response) {
+                // The view may not be able to handle UI updates anymore
+                if (!mDataContractView.isActive()) {
+                    return;
+                }
+                mDataContractView.onSuccessRequestVoiceAction();
+            }
+
+            @Override
+            public void onError(RequestVoiceActionUseCase.ResponseValue response) {
+                // The view may not be able to handle UI updates anymore
+                if (!mDataContractView.isActive()) {
+                    return;
+                }
+                mDataContractView.onErrorRequestVoiceAction();
+            }
+        });
+    }
+
+    @Override
+    public void stopRequestVoiceAction() {
+        mDataContractView.onSuccessRequestVoiceAction();
     }
 
     @Override

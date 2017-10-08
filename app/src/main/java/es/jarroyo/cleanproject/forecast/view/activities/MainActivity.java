@@ -13,8 +13,10 @@ import es.jarroyo.cleanproject.R;
 import es.jarroyo.cleanproject.base.UseCaseHandler;
 import es.jarroyo.cleanproject.base.ui.BaseNavigationActivity;
 import es.jarroyo.cleanproject.contract.DataPresenter;
-import es.jarroyo.cleanproject.forecast.source.DataRepository;
-import es.jarroyo.cleanproject.forecast.source.remote.RemoteDataSource;
+import es.jarroyo.cleanproject.forecast.model.domain.RequestVoiceActionUseCase;
+import es.jarroyo.cleanproject.forecast.source.weather.DataRepository;
+import es.jarroyo.cleanproject.forecast.source.voiceaction.VoiceActionRequest;
+import es.jarroyo.cleanproject.forecast.source.weather.remote.RemoteDataSource;
 import es.jarroyo.cleanproject.forecast.model.domain.usecase.GetDataUseCase;
 import es.jarroyo.cleanproject.forecast.view.fragments.MainFragment;
 import es.jarroyo.cleanproject.forecast.view.fragments.Section2Fragment;
@@ -79,7 +81,8 @@ public class MainActivity extends BaseNavigationActivity {
     private void createActivitiesPresenter(MainFragment mainFragment){
         mDataPresenter = new DataPresenter(UseCaseHandler.getInstance(),
                 mainFragment,
-                new GetDataUseCase(provideDataRepository(this))
+                new GetDataUseCase(provideDataRepository(this)),
+                new RequestVoiceActionUseCase(new VoiceActionRequest(this))
         );
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package es.jarroyo.cleanproject.forecast.source;
+package es.jarroyo.cleanproject.forecast.source.weather;
 
 import android.support.annotation.NonNull;
 

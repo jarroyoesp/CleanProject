@@ -1,4 +1,4 @@
-package es.jarroyo.cleanproject.forecast.source.remote;
+package es.jarroyo.cleanproject.forecast.source.weather.remote;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import es.jarroyo.cleanproject.BuildConfig;
 import es.jarroyo.cleanproject.base.RequestError;
-import es.jarroyo.cleanproject.forecast.source.DataSourceInterface;
+import es.jarroyo.cleanproject.forecast.source.weather.DataSourceInterface;
 import es.jarroyo.cleanproject.forecast.model.domain.model.Data;
 import es.jarroyo.cleanproject.utils.ApiConstants;
 import es.jarroyo.cleanproject.utils.NetworkUtils;

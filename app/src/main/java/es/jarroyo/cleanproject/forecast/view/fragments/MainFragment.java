@@ -12,7 +12,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,17 +22,11 @@ import android.widget.TextView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import ai.wit.sdk.IWitListener;
 import ai.wit.sdk.Wit;
-import ai.wit.sdk.model.WitOutcome;
 import butterknife.BindView;
 import butterknife.OnClick;
 import es.jarroyo.cleanproject.R;
@@ -47,7 +40,7 @@ import es.jarroyo.cleanproject.utils.SpeechUtils;
 
 import static android.content.Context.AUDIO_SERVICE;
 
-public class MainFragment extends BaseFragment implements DataContract.View, DataWeatherRvAdapter.OnItemClickListener, IWitListener {
+public class MainFragment extends BaseFragment implements DataContract.View, DataWeatherRvAdapter.OnItemClickListener {
     public static final String TAG = MainFragment.class.toString();
 
     @BindView(R.id.fragment_main_coordinator_layout)
@@ -221,6 +214,27 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     }
 
     @Override
+    public void requestingVoiceAction() {
+        isRecording = true;
+        showLoading();
+        mRecyclerViewData.setVisibility(View.GONE);
+        mTextViewLoading.setText("Listening...\nClick sound button to stop recording");
+    }
+
+    @Override
+    public void onSuccessRequestVoiceAction() {
+        isRecording = false;
+        mPresenter.loadData(mLatitude, mLongitud);
+    }
+
+    @Override
+    public void onErrorRequestVoiceAction() {
+        isRecording = false;
+        //Show error
+
+    }
+
+    @Override
     public void setPresenter(DataContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -299,24 +313,10 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         mLayoutInfo.setVisibility(View.GONE);
 
         if (isRecording) {
-            proccessWitResponse();
-            loadForecastData();
+            mPresenter.stopRequestVoiceAction();
         } else {
-            initRecording();
+            mPresenter.startRequestVoiceAction();
         }
-
-        // Debido a un problema con Wit en Android 6.0 simulamos las peticiones
-        // Habría que hacer la llamada a los servicios de WIT
-        /*try {
-            _wit.toggleListening();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    // Método en el que habría que tratar el resultado de WIT
-    private void proccessWitResponse() {
-
     }
 
     private void loadForecastData() {
@@ -327,63 +327,12 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         }
     }
 
-    private void initRecording() {
-        isRecording = true;
-        showLoading();
-        mRecyclerViewData.setVisibility(View.GONE);
-        mTextViewLoading.setText("Listening...\nClick sound button to stop recording");
-    }
-
 
     private void readInfoToUser(List<Data> dataList) {
 
         mTextToSpeech.speak(SpeechUtils.getTextToSpeech(dataList, 1), TextToSpeech.QUEUE_FLUSH, null);
     }
 
-    /***********************************************************************************************
-     * WIT
-     **********************************************************************************************/
-
-    private void prepareWit() {
-        String accessToken = "59d7d0f4-dd6b-43c6-992e-9a9fd700bde5";
-        _wit = new Wit(accessToken, this);
-        _wit.enableContextLocation(getContext());
-    }
-
-    @Override
-    public void witDidGraspIntent(ArrayList<WitOutcome> witOutcomes, String s, Error error) {
-        mTextViewInfo.setVisibility(View.VISIBLE);
-        mTextViewInfo.setMovementMethod(new ScrollingMovementMethod());
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        if (error != null) {
-            mTextViewInfo.setText(error.getLocalizedMessage());
-            return;
-        }
-        String jsonOutput = gson.toJson(witOutcomes);
-        mTextViewInfo.setText(jsonOutput);
-        //mTextViewInfo.setText("Done!");
-    }
-
-    @Override
-    public void witDidStartListening() {
-        mTextViewInfo.setText("Witting...");
-    }
-
-    @Override
-    public void witDidStopListening() {
-        mTextViewInfo.setText("Processing...");
-    }
-
-    @Override
-    public void witActivityDetectorStarted() {
-        mTextViewInfo.setText("Listening");
-    }
-
-    @Override
-    public String witGenerateMessageId() {
-        return null;
-    }
 
     /**
      * Anima la vista para mostrar si hay conexión a internet o no.
