@@ -12,10 +12,6 @@ import es.jarroyo.cleanproject.forecast.model.domain.usecase.GetDataUseCase;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-/**
- * Created by javierarroyo on 3/7/17.
- */
-
 public class DataPresenter implements DataContract.Presenter {
     private final DataContract.View mDataContractView;
     private final UseCaseHandler mUseCaseHandler;

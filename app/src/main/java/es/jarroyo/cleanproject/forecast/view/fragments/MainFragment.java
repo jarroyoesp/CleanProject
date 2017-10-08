@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -27,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -47,9 +47,6 @@ import es.jarroyo.cleanproject.utils.SpeechUtils;
 
 import static android.content.Context.AUDIO_SERVICE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MainFragment extends BaseFragment implements DataContract.View, DataWeatherRvAdapter.OnItemClickListener, IWitListener {
     public static final String TAG = MainFragment.class.toString();
 
