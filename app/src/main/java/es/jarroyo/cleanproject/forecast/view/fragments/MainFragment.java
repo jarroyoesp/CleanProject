@@ -13,6 +13,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
@@ -74,6 +75,9 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     @BindView(R.id.fragment_main_layout_info)
     View mLayoutInfo;
 
+    @BindView(R.id.main_content_fab_button)
+    View mFabButton;
+
     DataWeatherRvAdapter mDataWeatherRVAdapter;
 
     private DataContract.Presenter mPresenter;
@@ -113,6 +117,25 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
         super.onViewCreated(view, savedInstanceState);
         checkVolumeLevel();
         getLastKnowPosition();
+        setClikListenerFabButton();
+    }
+
+    private void setClikListenerFabButton() {
+        mFabButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mPresenter.startRequestVoiceAction();
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        mPresenter.stopRequestVoiceAction();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -302,11 +325,6 @@ public class MainFragment extends BaseFragment implements DataContract.View, Dat
     @OnClick(R.id.fragment_main_button_reload)
     public void onClickReload() {
         mPresenter.loadData(mLatitude, mLongitud);
-    }
-
-    @OnClick(R.id.main_content_fab_button)
-    public void onClickProccessRequestWit() {
-        clickRecord();
     }
 
     private void clickRecord() {

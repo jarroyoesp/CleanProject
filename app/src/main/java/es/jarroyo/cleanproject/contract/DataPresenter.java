@@ -43,7 +43,10 @@ public class DataPresenter implements DataContract.Presenter {
     @Override
     public void startRequestVoiceAction() {
         mDataContractView.requestingVoiceAction();
+    }
 
+    @Override
+    public void stopRequestVoiceAction() {
         mUseCaseHandler.execute(mRequestVoiceActionUseCase, new RequestVoiceActionUseCase.RequestValues(), new UseCase.UseCaseCallback<RequestVoiceActionUseCase.ResponseValue>(){
 
             @Override
@@ -64,11 +67,6 @@ public class DataPresenter implements DataContract.Presenter {
                 mDataContractView.onErrorRequestVoiceAction();
             }
         });
-    }
-
-    @Override
-    public void stopRequestVoiceAction() {
-        mDataContractView.onSuccessRequestVoiceAction();
     }
 
     @Override
